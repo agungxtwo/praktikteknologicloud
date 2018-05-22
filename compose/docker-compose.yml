@@ -1,19 +1,23 @@
-version: '2'
+web:
+   image: php:7.2-apache
+   environment:
+     - ALLOW_OVERRIDE=true
+   ports:
+     - "80:80"
+   links:
+     - db
+   volumes:
+     - ./app:/var/www/html/
 
-services:
-   db:
-     image: mysqltcc
-     ports:
-       - "3306:3306"
-     environment:
-       MYSQL_ROOT_PASSWORD: tcc
-       MYSQL_DATABASE: tcc
-
-   web:
-     links:
-       - db
-     image: michaeldim/alpine-nginx-php
-     ports:
-       - "80:80"
-     volumes:
-       - ./app:/var/www/
+db:
+  image: mariadb
+  restart: always
+  volumes:
+    - ./mysql:/var/lib/mysql
+  environment:
+    MYSQL_ROOT_PASSWORD: root
+    MYSQL_USER: admin
+    MYSQL_PASSWORD: test
+    MYSQL_DATABASE: database
+  ports:
+    - "8889:3306"
