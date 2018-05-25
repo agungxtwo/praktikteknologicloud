@@ -1,64 +1,23 @@
-<<<<<<< HEAD
-version: "2"
-services:
-    web:
-        build: .
-        ports: 
-            - "80:80"
-        volumes:
-            - ./www:/var/www/html/
-        links:
-            - db
-        networks:
-            - default
-    db:
-        image: mysql
-        ports: 
-            - "3306:3306"
-        environment:
-            MYSQL_DATABASE: tabel
-            MYSQL_USER: root
-            MYSQL_PASSWORD: test
-            MYSQL_ROOT_PASSWORD: test
-        volumes:
-            - ./dump:/docker-entrypoint-initdb.d
-            - persistent:/var/lib/mysql
-        networks:
-            - default
-    phpmyadmin:
-        image: phpmyadmin/phpmyadmin
-        links: 
-            - db:db
-        ports:
-            - 8000:80
-        environment:
-            MYSQL_USER: root
-            MYSQL_PASSWORD: test
-            MYSQL_ROOT_PASSWORD: test
-volumes:
-    persistent:
-=======
-web:
-   image: php:7.2-apache
-   environment:
-     - ALLOW_OVERRIDE=true
-   ports:
-     - "80:80"
-   links:
-     - db
-   volumes:
-     - ./apps:/var/www/html/
+version: '3'
 
-db:
-  image: mariadb
-  restart: always
-  volumes:
-    - ./mysql:/var/lib/mysql
-  environment:
-    MYSQL_ROOT_PASSWORD: root
-    MYSQL_USER: admin
-    MYSQL_PASSWORD: test
-    MYSQL_DATABASE: database
-  ports:
-    - "8889:3306"
->>>>>>> 2d21bbef73a6420bb32ad060d92638d8e23ada05
+services:
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: test_db
+      MYSQL_USER: devuser
+      MYSQL_PASSWORD: devpass
+    ports:
+      - "9906:3306"
+  web:
+    image: php:7.2.2-apache
+    container_name: php_web
+    depends_on:
+      - db
+    volumes:
+      - ./php/:/var/www/html/
+    ports:
+      - "8100:80"
+    stdin_open: true
+    tty: true
