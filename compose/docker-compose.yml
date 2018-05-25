@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 version: '3'
 
 services:
@@ -21,3 +22,39 @@ services:
       - "8100:80"
     stdin_open: true
     tty: true
+=======
+services:
+  web:
+    build: .
+    ports: 
+     - "80:80"
+    volumes:
+     - ./www:/var/www/html/
+    links:
+     - db
+    networks:
+     - default
+  db:
+    image: mysql
+    ports: 
+     - "3306:3306"
+    environment:
+     MYSQL_DATABASE: tabel
+     MYSQL_USER: root
+     MYSQL_PASSWORD: test
+     MYSQL_ROOT_PASSWORD: test
+    volumes:
+     - ./dump:/docker-entrypoint-initdb.d
+    networks:
+     - default
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    links: 
+     - db:db
+    ports:
+     - 8000:80
+    environment:
+     MYSQL_USER: root
+     MYSQL_PASSWORD: test
+     MYSQL_ROOT_PASSWORD: test
+>>>>>>> 9ae0909e25fd5ea656aa807efe33e18be393f480
