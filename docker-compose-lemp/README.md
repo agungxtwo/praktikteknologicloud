@@ -27,7 +27,5 @@ docker-compose stop
 docker-compose rm
 ```
 
-=====================
-
 [Docker]:                      https://www.docker.com/
 [Compose]:                     http://docs.docker.com/compose/install/
