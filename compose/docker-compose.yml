@@ -11,12 +11,12 @@ services:
     ports:
       - "9906:3306"
   web:
-    build: .
-    container_name: php_web
+    image: agungxtwo/php-apache2
+#   container_name: php_web
     depends_on:
       - db
     volumes:
-      - ./php/:/var/www/html/
+      - ./php:/var/www/html
     ports:
       - "8100:80"
     stdin_open: true
